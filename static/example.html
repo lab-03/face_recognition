@@ -1,0 +1,101 @@
+<!doctype html>
+    <title>Face Recognition</title>
+    <head>
+      <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+      <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+      <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+      <meta charset=utf-8 />
+      <title>JS Bin</title>
+      <!--[if IE]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
+      <style>
+        article, aside, figure, footer, header, hgroup, 
+        menu, nav, section { display: block; }
+      </style>
+      </head>
+    
+    <body>
+    <h1>Upload an image</h1>
+    <form method=post enctype=multipart/form-data action="\" id="fileUploadForm">
+      <input type=file name="original" onchange="readURL(this, '#o');">
+      <img id="o" src="#" alt="your image" />
+      <input type="file" name="captured" onchange="readURL(this, '#c');">
+      <img id="c" src="#" alt="your image" />
+      <input type=submit value="Comapare The Two Faces" id="btnSubmit" >
+    </form>
+
+    <h1>Service Call result</h1>
+    <h1 id="per">Same Person: </h1> <h1><span id="result"></span></h1>
+    </body>
+
+    <script>
+      function readURL(input, image_id) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            console.log(image_id)
+            reader.onload = function (e) {
+                $(image_id)
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+
+        $(document).ready(function () {
+
+ $("#per").prop("hidden", true);
+$("#btnSubmit").click(function (event) {
+
+    //stop submit the form, we will post it manually.
+    event.preventDefault();
+
+    // Get form
+    var form = $('#fileUploadForm')[0];
+
+// Create an FormData object 
+    var data = new FormData(form);
+
+// If you want to add an extra field for the FormData
+    // data.append("CustomField", "This is some extra data, testing");
+
+// disabled the submit button
+    $("#btnSubmit").prop("disabled", true);
+    $("#btnSubmit").text("comparing...")
+
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: "/",
+        data: data,
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            $("#result").text(data.same_person);
+            console.log("SUCCESS : ",data);
+            $("#btnSubmit").prop("disabled", false);
+            $("#per").prop("hidden", false);
+            $("#btnSubmit").text("Comapare The Two Faces")
+
+        },
+        error: function (e) {
+
+            $("#result").text(e.responseText);
+            console.log("ERROR : ", e);
+            $("#btnSubmit").prop("disabled", false);
+            $("#btnSubmit").text("Comapare The Two Faces")
+
+        }
+    });
+
+});
+
+});
+
+    }
+    </script>
