@@ -6,6 +6,11 @@ after cloning the Repo just install the dependices first
 <br>
 <code>pip install -r requirments.txt </code> 
 <br>
+if it fails cuz of dlib - just excute these commands <br>
+<code> sudo apt-get install build-essential cmake </code> <br>
+<code> sudo apt-get install libgtk-3-dev </code> <br>
+<code> sudo apt-get install libboost-all-dev </code>
+<br>
 # How to use
 to use it just run the command
 <br>
