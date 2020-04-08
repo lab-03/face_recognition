@@ -1,25 +1,27 @@
 from flask import jsonify, request, redirect
 from face_recgonition.face_recognition_api import compare_faces
 from helpers.image_validations import allowed_file
+from helpers.image_downloader import url_to_image
 
 def compare():
-    check_if_image_missing()
-    original_face, captured_face = get_faces_files()
-    same_person = compare_faces(request.files['original'], request.files['captured'])
-    return jsonify({"same_person": same_person})
+    if check_if_image_missing(): 
+       return same_person_resp(False)
+    original_face_image =  get_face_image(image_url('original_face'))
+    captured_face_image =  get_face_image(image_url('captured_face'))
+    same_person = compare_faces(original_face_image, captured_face_image)
+    return same_person_resp(same_person)
 
 
 
 def check_if_image_missing():
-    if 'original_face' not in request.files:
-        return redirect(request.url)
-    if 'captured_face' not in request.files:
-        return redirect(request.url)
-    file_1, file_2 = get_faces_files()
-    if file_1.filename == '' or file_2.filename == '':
-        return redirect(request.url)
-    if not(file_1 and file_2 and allowed_file(file_1.filename) and allowed_file(file_2.filename)):
-        return redirect(request.url)
+    if 'original_face' not in request.json or 'captured_face' not in request.json:
+        return True
+   
+def get_face_image(file_url):
+    return url_to_image(file_url)
 
-def get_faces_files():
-    return request.files['original'], request.files['captured']
+def same_person_resp(status):
+    return jsonify({"same_person": status})
+
+def image_url(key):
+    return request.json[key]
