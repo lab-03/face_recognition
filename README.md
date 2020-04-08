@@ -22,7 +22,7 @@ this will run the server and then u could use postman or curl for example to mak
 the request should look something like this.
 <br>
 <code>
-curl --location --request POST 'localhost:5000/verify' \
+curl --location --request POST 'https://fr-api.herokuapp.com//verify' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 	"original_face": "http://psce.pw/PTZZB", 
@@ -33,6 +33,6 @@ curl --location --request POST 'localhost:5000/verify' \
 and this return a response
 <code>
 {
-  "same_person": true
+  "same_person": false
 }
 </code><br> if the two pics are of the same person ofcourse
