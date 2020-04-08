@@ -21,10 +21,13 @@ this will run the server and then u could use postman or curl for example to mak
 <br>
 the request should look something like this.
 <br>
-<code>curl --location --request POST 'localhost:5001/' \
---header 'Content-Type: multipart/form-data; boundary=--------------------------149287528197819264576957' \
---form 'original=@example_images/obama.jpg' \
---form 'captured=@example_images/obama.jpg'
+<code>
+curl --location --request POST 'localhost:5000/verify' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+	"original_face": "http://psce.pw/PTZZB", 
+	"captured_face": "http://psce.pw/R82RD"
+}'
 </code>
 <br> 
 and this return a response

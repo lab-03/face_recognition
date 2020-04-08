@@ -2,6 +2,7 @@ import face_recognition
 
 
 def compare_faces(original_face, captured_face):
+    
     same_person = False
     
     original_face_encoding = get_image_encoding(original_face)
