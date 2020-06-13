@@ -17,3 +17,7 @@ def compare_faces(original_face, captured_face):
 def get_image_encoding(image_file):
     image = face_recognition.load_image_file(image_file)
     return face_recognition.face_encodings(image)    
+
+def detect_number_of_faces(face_image):
+    image = face_recognition.load_image_file(face_image)
+    return len(face_recognition.face_locations(image))
