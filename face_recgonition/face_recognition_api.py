@@ -10,7 +10,8 @@ def compare_faces(original_face, captured_face):
 
     if len(captured_face_encoding) > 0 and len(original_face_encoding) > 0:
         same_face = face_recognition.compare_faces([original_face_encoding[0]], captured_face_encoding[0])
-        accuracy = round(face_recognition.face_distance(original_face_encoding, captured_face_encoding[0])[0] * 100, 2)
+        distance = face_recognition.face_distance(original_face_encoding, captured_face_encoding[0])[0]
+        accuracy = round((1 - distance) * 100, 2)
         if same_face[0]:
             same_person = True
         print(accuracy);

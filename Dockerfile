@@ -31,9 +31,11 @@ RUN cd ~ && \
     python3 setup.py install --yes USE_AVX_INSTRUCTIONS
 
 # COPY stuff
-ADD . /app
+ADD requirements.txt /app/
+COPY requirements.txt /
 WORKDIR /app
 RUN pip3 install -r requirements.txt
+ADD . /app
 COPY . /app
 RUN chmod +x boot.sh
 
